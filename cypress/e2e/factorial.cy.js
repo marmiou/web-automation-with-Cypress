@@ -1,4 +1,6 @@
-//todo add page object model and move selectors and reused methods in the class object
+//todo: add page object model and move selectors and reused methods in the class object
+//todo: create tags in order to associate testcase with defect
+
 describe('Test Factorial Page', () => {
     beforeEach(() => {
         cy.visit('http://qainterview.pythonanywhere.com/');
