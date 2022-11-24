@@ -1,0 +1,11 @@
+{
+  "name": "web-automation-with-Cypress",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:marmiou/web-automation-with-Cypress.git",
+  "author": "markella efthymiou <efthymioumarkella@gmail.com>",
+  "license": "Apache Licence v2.0",
+  "devDependencies": {
+    "cypress": "^11.2.0"
+  }
+}
