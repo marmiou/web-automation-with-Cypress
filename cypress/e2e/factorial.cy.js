@@ -2,142 +2,133 @@
 //todo: create tags in order to associate testcase with defect
 
 import factorial from "bigint-factorial";
+import {
+    navigate,
+    getHeader,
+    getNumberField,
+    getFactorialBtn,
+    typeOnClearedNumberField,
+    clickFactorialBtn,
+    getResult,
+    calculateFactorialWithScientificNotation
+} from '../pageObjects/factorialPage'
 
-describe('Test Factorial Page', () => {
+describe('Test Factorial Page for numbers in range(10,100)', () => {
     beforeEach(() => {
-        cy.visit('http://qainterview.pythonanywhere.com/');
-        cy.get('h1').should('be.visible');
-        cy.get('h1').should('contain.text', 'The greatest factorial calculator!');
-        cy.get('[id="number"]').should('be.visible');
-        cy.get('[id="getFactorial"]').should('be.visible');
+        navigate();
+        getHeader().should('be.visible');
+        getHeader().should('contain.text', 'The greatest factorial calculator!');
+        getNumberField().should('be.visible');
+        getFactorialBtn().should('be.visible');
+        getResult().should('not.be.visible');
     })
 
-    it('Should calculate factorial for lower boundary inclusive values', () => {
-        let expectedResult;
-        const format = {
-            notation: 'scientific',
-            maximumFractionDigits: 15
-        };
-        for (let integer = 10; integer < 12; integer++) {
-            cy.get('[id="number"]')
-                .clear()
-                .type(integer.toString());
-            cy.get('[id="getFactorial"]').click();
-            cy.get('[id="resultDiv"]').should('be.visible');
+    // //todo: this has been created in order to run once and check each an every value in range(10,100) and not as a regression test
+    // it('skip', 'Should calculate factorial for all values in range(10,100)', () => {
+    //     for (let integer = 10; integer <= 100; integer++) {
+    //         typeOnClearedNumberField(integer.toString());
+    //         clickFactorialBtn();
+    //         getResult().should('be.visible');
+    //         getResult().should('have.text',
+    //             "The factorial of " + integer + " is: " + calculateFactorialWithScientificNotation(integer));
+    //     }
+    // })
 
-            expectedResult = factorial(BigInt((integer)));
-            let scientificNotationExpectedResult = expectedResult
-                .toLocaleString('en-US', format)
-                .toLowerCase()
-                .replace('e', "e+")
-            cy.get('[id="resultDiv"]').should('have.text',
-                "The factorial of " + integer + " is: " + scientificNotationExpectedResult);
+    //todo: FE defect lower vales do not have the scientific notation, as the upper values.
+    it('Should calculate factorial for lower boundary inclusive values', () => {
+        for (let integer = 10; integer <= 12; integer++) {
+            typeOnClearedNumberField(integer.toString());
+            clickFactorialBtn();
+            getResult().should('be.visible');
+            getResult().should('have.text',
+                "The factorial of " + integer + " is: " + calculateFactorialWithScientificNotation(integer));
         }
     })
 
     it('Should calculate factorial for upper boundary inclusive values', () => {
-        let expectedResult;
-        const format = {
-            notation: 'scientific',
-            maximumFractionDigits: 15
-        };
-
-        for (let integer = 99; integer <= 100; integer++) {
-            cy.get('[id="number"]')
-                .clear()
-                .type(integer.toString());
-            cy.get('[id="getFactorial"]').click();
-            cy.get('[id="resultDiv"]').should('be.visible');
-
-            expectedResult = factorial(BigInt((integer)));
-            let scientificNotationExpectedResult = expectedResult
-                .toLocaleString('en-US', format)
-                .toLowerCase()
-                .replace('e', "e+")
-            cy.get('[id="resultDiv"]').should('have.text',
-                "The factorial of " + integer + " is: " + scientificNotationExpectedResult);
+        for (let integer = 98; integer <= 100; integer++) {
+            typeOnClearedNumberField(integer.toString());
+            clickFactorialBtn();
+            getResult().should('be.visible');
+            getResult().should('have.text',
+                "The factorial of " + integer + " is: " + calculateFactorialWithScientificNotation(integer));
         }
     })
 
-    //todo: FE + BE defect
+    //todo: FE + BE defect, given that we consider that the calculator should work for (10,100) range
     it('Should not calculate factorial for lower boundary exclusive values', () => {
         for (let integer = 8; integer < 10; integer++) {
-            cy.get('[id="number"]')
-                .clear()
-                .type(integer.toString());
-            cy.get('[id="getFactorial"]').click();
-            cy.get('[id="resultDiv"]').should('not.be.visible');
+            typeOnClearedNumberField(integer.toString());
+            clickFactorialBtn();
+            getResult().should('be.visible');
+            getResult().should('contain.text', 'Please enter an integer within the range (10,100)')
+            getNumberField()
+                .should('have.css', 'border')
+                .and('include', 'solid rgb(255, 0, 0)');
         }
     })
 
-    //todo: FE + BE defect
+    //todo: FE + BE defect given that we consider that the calculator should work for (10,100) range
     it('Should not calculate factorial for upper boundary exclusive values', () => {
         for (let integer = 101; integer < 103; integer++) {
-            cy.get('[id="number"]')
-                .clear()
-                .type(integer.toString());
-            cy.get('[id="getFactorial"]').click();
-            cy.get('[id="resultDiv"]').should('not.be.visible');
+            typeOnClearedNumberField(integer.toString());
+            clickFactorialBtn();
+            getResult().should('be.visible');
+            getResult().should('contain.text', 'Please enter an integer within the range (10,100)')
+            getNumberField()
+                .should('have.css', 'border')
+                .and('include', 'solid rgb(255, 0, 0)');
         }
     })
 
     it('Should prevent factorial calculation when nothing is typed', () => {
-        cy.get('[id="getFactorial"]').click();
-        cy.get('[id="resultDiv"]').should('be.visible');
-        cy.get('[id="resultDiv"]').should('contain.text', 'Please enter an integer')
-        cy.get('[id="number"]')
+        clickFactorialBtn();
+        getResult().should('be.visible');
+        getResult().should('contain.text', 'Please enter an integer')
+        getNumberField()
             .should('have.css', 'border')
             .and('include', 'solid rgb(255, 0, 0)');
     })
 
     it('Should prevent factorial calculation when space is typed', () => {
-        cy.get('[id="number"]')
-            .clear()
-            .type(' ');
-        cy.get('[id="getFactorial"]').click();
-        cy.get('[id="resultDiv"]').should('be.visible');
-        cy.get('[id="resultDiv"]').should('contain.text', 'Please enter an integer')
-        cy.get('[id="number"]')
+        typeOnClearedNumberField(' ');
+        clickFactorialBtn();
+        getResult().should('be.visible');
+        getResult().should('contain.text', 'Please enter an integer')
+        getNumberField()
             .should('have.css', 'border')
             .and('include', 'solid rgb(255, 0, 0)');
     })
 
-    //todo BE defect
+    //todo BE defect: 500 status code returned
     it('Should prevent factorial calculation for decimal value', () => {
-        cy.get('[id="number"]')
-            .clear()
-            .type('20.0');
-        cy.get('[id="getFactorial"]').click();
-        cy.get('[id="resultDiv"]').should('contain.text', 'Please enter an integer')
-        cy.get('[id="number"]')
+        typeOnClearedNumberField('20.0')
+        clickFactorialBtn()
+        getResult().should('contain.text', 'Please enter an integer')
+        getNumberField()
             .should('have.css', 'border')
             .and('include', 'solid rgb(255, 0, 0)');
 
     })
 
     it('Should prevent factorial calculation for special characters', () => {
-        cy.get('[id="number"]')
-            .clear()
-            .type('!@#$^]');
-        cy.get('[id="getFactorial"]').click();
-        cy.get('[id="resultDiv"]').should('not.be.visible');
+        typeOnClearedNumberField('!@#$^]')
+        clickFactorialBtn()
+        getResult().should('contain.text', 'Please enter an integer')
+        getNumberField()
+            .should('have.css', 'border')
+            .and('include', 'solid rgb(255, 0, 0)');
     })
 
-    //TODO check verification
+    //todo defect FE+BE: 12e is an integer but with scientific notation.Maybe the error message should be more explanatory
+    // also if we try with bigNumber -> nice to have an upper boundary for the form with explanatory error message
+    // (status code 500 returned in BE)
     it('Should prevent factorial calculation for Exponential Integer', () => {
-        cy.get('[id="number"]')
-            .clear()
-            .type('12n');
-        cy.get('[id="getFactorial"]').click();
-        cy.get('[id="resultDiv"]').should('not.be.visible');
+        typeOnClearedNumberField('12e')
+        clickFactorialBtn()
+        getResult().should('contain.text', 'Please enter a valid integer in range(10,100)')
+        getNumberField()
+            .should('have.css', 'border')
+            .and('include', 'solid rgb(255, 0, 0)');
     })
 })
-
-
-//todo
-//my factorial method
-// let i, result = BigInt(1);
-// for (i=BigInt(2); i <=(integer+1); i++){
-//     result *=i;
-// }
-//let scientificFormatResult = result.toLocaleString('en-US', format)
