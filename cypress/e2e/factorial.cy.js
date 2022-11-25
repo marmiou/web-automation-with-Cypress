@@ -1,7 +1,6 @@
 //todo: add page object model and move selectors and reused methods in the class object
 //todo: create tags in order to associate testcase with defect
 
-import factorial from "bigint-factorial";
 import {
     navigate,
     getHeader,
@@ -24,15 +23,15 @@ describe('Test Factorial Page for numbers in range(10,100)', () => {
     })
 
     // //todo: this has been created in order to run once and check each an every value in range(10,100) and not as a regression test
-    // it('skip', 'Should calculate factorial for all values in range(10,100)', () => {
-    //     for (let integer = 10; integer <= 100; integer++) {
-    //         typeOnClearedNumberField(integer.toString());
-    //         clickFactorialBtn();
-    //         getResult().should('be.visible');
-    //         getResult().should('have.text',
-    //             "The factorial of " + integer + " is: " + calculateFactorialWithScientificNotation(integer));
-    //     }
-    // })
+    it('skip', 'Should calculate factorial for all values in range(10,100)', () => {
+        for (let integer = 10; integer <= 100; integer++) {
+            typeOnClearedNumberField(integer.toString());
+            clickFactorialBtn();
+            getResult().should('be.visible');
+            getResult().should('have.text',
+                "The factorial of " + integer + " is: " + calculateFactorialWithScientificNotation(integer));
+        }
+    })
 
     //todo: FE defect lower vales do not have the scientific notation, as the upper values.
     it('Should calculate factorial for lower boundary inclusive values', () => {
