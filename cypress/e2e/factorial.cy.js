@@ -1,6 +1,8 @@
 //todo: add page object model and move selectors and reused methods in the class object
 //todo: create tags in order to associate testcase with defect
 
+import factorial from "bigint-factorial";
+
 describe('Test Factorial Page', () => {
     beforeEach(() => {
         cy.visit('http://qainterview.pythonanywhere.com/');
@@ -11,24 +13,49 @@ describe('Test Factorial Page', () => {
     })
 
     it('Should calculate factorial for lower boundary inclusive values', () => {
+        let expectedResult;
+        const format = {
+            notation: 'scientific',
+            maximumFractionDigits: 15
+        };
         for (let integer = 10; integer < 12; integer++) {
             cy.get('[id="number"]')
                 .clear()
                 .type(integer.toString());
             cy.get('[id="getFactorial"]').click();
             cy.get('[id="resultDiv"]').should('be.visible');
-            //todo: create a method for factorial number that returns the expected result
+
+            expectedResult = factorial(BigInt((integer)));
+            let scientificNotationExpectedResult = expectedResult
+                .toLocaleString('en-US', format)
+                .toLowerCase()
+                .replace('e', "e+")
+            cy.get('[id="resultDiv"]').should('have.text',
+                "The factorial of " + integer + " is: " + scientificNotationExpectedResult);
         }
     })
 
     it('Should calculate factorial for upper boundary inclusive values', () => {
-        for (let integer = 99; integer < 101; integer++) {
+        let expectedResult;
+        const format = {
+            notation: 'scientific',
+            maximumFractionDigits: 15
+        };
+
+        for (let integer = 99; integer <= 100; integer++) {
             cy.get('[id="number"]')
                 .clear()
-                .type('100');
+                .type(integer.toString());
             cy.get('[id="getFactorial"]').click();
             cy.get('[id="resultDiv"]').should('be.visible');
-            //todo: create a method for factorial number that returns the expected result
+
+            expectedResult = factorial(BigInt((integer)));
+            let scientificNotationExpectedResult = expectedResult
+                .toLocaleString('en-US', format)
+                .toLowerCase()
+                .replace('e', "e+")
+            cy.get('[id="resultDiv"]').should('have.text',
+                "The factorial of " + integer + " is: " + scientificNotationExpectedResult);
         }
     })
 
@@ -97,11 +124,20 @@ describe('Test Factorial Page', () => {
     })
 
     //TODO check verification
-    it('Should prevent factorial calculation for number including e', () => {
+    it('Should prevent factorial calculation for Exponential Integer', () => {
         cy.get('[id="number"]')
             .clear()
-            .type('12e');
+            .type('12n');
         cy.get('[id="getFactorial"]').click();
         cy.get('[id="resultDiv"]').should('not.be.visible');
     })
 })
+
+
+//todo
+//my factorial method
+// let i, result = BigInt(1);
+// for (i=BigInt(2); i <=(integer+1); i++){
+//     result *=i;
+// }
+//let scientificFormatResult = result.toLocaleString('en-US', format)

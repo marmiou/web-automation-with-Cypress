@@ -6,6 +6,7 @@
   "author": "markella efthymiou <efthymioumarkella@gmail.com>",
   "license": "Apache Licence v2.0",
   "devDependencies": {
+    "bigint-factorial": "^1.1.3",
     "cypress": "^11.2.0"
   }
 }
