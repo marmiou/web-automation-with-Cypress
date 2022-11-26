@@ -26,22 +26,25 @@ To install it:
 To open the application:
 #### `yarn run cypress open`
 
-Run the tests:
+To run the tests via the Cypress app:
+#### `yarn run cypress open`
 
-You can run the tests via the Cypress app or with cli:
+or run cli command:
 #### `yarn cypress run --spec cypress/e2e/factorial.cy.js --reporter mochawesome`
 
+Reports of the run can be found under directory:
+#### `mochawesome/reports`
 ## Built With
 
 - JavaScript
 - Node
 - Yarn
 - Cypress
+- Mochawesome reporter
 
 [comment]: <> (Add a reporter)
 
 ## Author
-
 **Markella Efthymiou**
 - [GitHub Profile](https://github.com/marmiou/ "Markella Efthymiou")
 - [Email](mailto:efthymioumarkella@gmail.com?subject=Hi "Hi!")
