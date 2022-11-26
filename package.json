@@ -4,9 +4,14 @@
   "main": "index.js",
   "repository": "git@github.com:marmiou/web-automation-with-Cypress.git",
   "author": "markella efthymiou <efthymioumarkella@gmail.com>",
-  "license": "Apache Licence v2.0",
+  "license": "GPL-3.0 license",
   "devDependencies": {
     "bigint-factorial": "^1.1.3",
-    "cypress": "^11.2.0"
+    "cypress": "^11.2.0",
+    "cypress-mochawesome-reporter": "^3.2.3",
+    "mochawesome": "^7.1.3"
+  },
+  "scripts": {
+    "cy:run": "cypress run"
   }
 }
