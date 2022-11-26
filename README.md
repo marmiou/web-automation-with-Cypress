@@ -28,7 +28,8 @@ To open the application:
 
 Run the tests:
 
-You can run the tests via the Cypress app
+You can run the tests via the Cypress app or with cli:
+#### `yarn cypress run --spec cypress/e2e/factorial.cy.js --reporter mochawesome`
 
 ## Built With
 
