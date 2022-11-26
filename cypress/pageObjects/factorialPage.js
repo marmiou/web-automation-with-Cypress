@@ -26,14 +26,18 @@ export function typeOnClearedNumberField(int) {
         .type(int.toString());
 }
 
-export function clickFactorialBtn() {
+export function calculate() {
     return getFactorialBtn().click()
 }
 
-export function calculateFactorialWithScientificNotation(int) {
+export function calculateFactorialWithoutScientificNotation(int){
+    return factorial(BigInt(int))
+}
+
+export function calculateFactorialWithScientificNotation(int, precision) {
     const format = {
         notation: 'scientific',
-        maximumFractionDigits: 15
+        maximumFractionDigits: precision
     };
 
     return factorial(BigInt(int))
@@ -44,8 +48,11 @@ export function calculateFactorialWithScientificNotation(int) {
 
 //todo
 //my factorial method
-// let i, result = BigInt(1);
-// for (i=BigInt(2); i <=(integer+1); i++){
-//     result *=i;
+// export function factorial(number) {
+//     let i, result = BigInt(1);
+//
+//     for (i = BigInt(2); i <= (number + 1); i++) {
+//         result *= i;
+//         return result
+//     }
 // }
-//let scientificFormatResult = result.toLocaleString('en-US', format)
