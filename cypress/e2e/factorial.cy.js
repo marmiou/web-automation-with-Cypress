@@ -24,12 +24,13 @@ describe('Test Factorial Page for numbers in range(10,100)', () => {
     //Also, if there was a requirement analysis, it would be a strong suggestion to have 2 different tests on unit testing level, aka
     // 1. for BE calculations within range 2.For FE translation of BE calculation to scientific notation within range (Shift left testing)
     for (let integer = 10; integer <= 100; integer++) {
-        it('Should calculate factorial for integer ' + integer + ' with precision 15 digits', () => {
+        let digitPrecision = 15;
+        it('Should calculate factorial for integer ' + integer + ' with precision ' + digitPrecision + ' digits', () => {
             typeOnClearedNumberField(integer.toString());
             calculate();
             getResult().should('be.visible');
             getResult().should('have.text',
-                'The factorial of ' + integer + ' is: ' + calculateFactorialWithScientificNotation(integer, 15));
+                'The factorial of ' + integer + ' is: ' + calculateFactorialWithScientificNotation(integer, digitPrecision));
         })
     }
 })
