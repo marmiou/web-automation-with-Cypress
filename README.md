@@ -6,9 +6,6 @@
 
 - [Repo](https://github.com/marmiou/web-automation-with-Cypress "Web Automation with Cypress Repo")
 
-todo
-- [Bugs](https://github.com/Rohit19060/<project-name>/issues "Issues Page")
-
 ## Prerequisites
 [comment]: <> (Add all installations needed)
 
